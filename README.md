@@ -10,10 +10,11 @@
  
 ##
 
-<div align='center'>
-  <img width='700' src='Game-life.gif'>
+<div>
+    <p> O objetivo do experimento é simular o comportamento de celulas em grupo. Usando como base um tabuleiro bi-dimensional que segue algumas regras para funcionar. </p>
+  <div align='center'>
+    <img width='600' src='Game-of-life.gif'>
+  </div>
 </div>
 
 ##
-
-<p> O objetivo do experimento é simular o comportamento de celulas em grupo. Usando como base um tabuleiro bi-dimensional que segue algumas regras para funcionar. </p>
