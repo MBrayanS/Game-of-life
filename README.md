@@ -17,7 +17,11 @@ E neste projeto eu recriei esse experimento, utilizando:
 
 ##
 
-<div align='center'> <img width='500' src='Game-of-life.gif'> </div>
+<div align='center'>
+  <img align='left' width='250' height='200' src='./img/exemplo1.gif'>
+  <img width='250' height='200' src='./img/exemplo2.gif'>
+  <img align='right'width='250' height='200' src='./img/exemplo3.gif'>
+</div>
 
 ##
 
@@ -31,3 +35,19 @@ O objetivo do experimento é simular o comportamento de celulas em grupo. Usando
 * Qualquer célula viva com mais de três vizinhos vivos morre de superpopulação.
 * Qualquer célula com exatamente três vizinhos vivos se torna uma célula viva.
 * Qualquer célula com dois vizinhos vivos continua no mesmo estado para a próxima geração
+
+<br>
+
+Estas regras apesar de simples geram inumeras formas, uma mais impressionante que a outra.
+
+<br>
+
+##
+
+<br>
+
+Entre tantas variações surgem também alguns padrões como este:
+
+<div align='center'>
+  <img width='250' height='200' src='./img/padrao1.gif'>
+</div>
