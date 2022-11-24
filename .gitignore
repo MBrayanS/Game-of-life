@@ -1,2 +1,3 @@
-.dccache
-.gitignore
+*.dccache
+oldscript.js
+

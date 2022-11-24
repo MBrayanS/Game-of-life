@@ -4,23 +4,30 @@
     <meta charset="UTF-8">
     <title>Game of life</title>
     <link rel="stylesheet" href="style.css">
-    <script type="module" defer src="js.js"></script>
+    <script type="module" defer src="./script/script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 </head>
 <body>
     <div class="painel">
         <label>
-            <button class='btn-pause'>Rodando</button>
+            <button class='btn-pause'>Pausado</button>
         </label>
         <label>
-            <p>FPS: </p>
-            <input class="fps-input" type="number">
+            <p>Atualizacoes p/s: </p>
+            <input class="atualizacoes-por-segundo" type="number">
         </label>
         <label>
-            <button class='btn-ajustar'>Ajustar</button>
+            <button class='limpar-grade'>Limpar grade</button>
         </label>
+        <label>
+            <p>| Cedulas vivas: <span>0</span></p>
+        </label>
+
     </div>
-    <div class="container">
-        <div class="jogo"></div>
+    <div class="conteudo">
+        <div class="grade">
+
+        </div>
     </div>
 </body>
 </html>
