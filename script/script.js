@@ -1,6 +1,6 @@
 const grade = {
     divGrade: $('.grade'),
-    tamanhoDasCedulas: 15,
+    tamanhoDasCedulas: 10,
 
     iniciar(){
         this.ajustarGrade()
@@ -8,21 +8,25 @@ const grade = {
     },
 
     ajustarGrade(){
-        this.divGrade.width($('body').width()-160)
-        this.divGrade.height($('body').height()-90)
+        
+        
         this.divGrade.css('border', '1px solid red')
     },
-
+    
     montarGrade(){
-        let colunas = this.divGrade.height()/this.tamanhoDasCedulas
-        let linhas = this.divGrade.width()/this.tamanhoDasCedulas
+        let bodyW = $('body').width()
+        let bodyH = $('body').height()
+        let colunas = this.calcularNumeroDeCedulas(bodyW)
+        let linhas = this.calcularNumeroDeCedulas(bodyH)
+
+        console.log(colunas,linhas)
 
         for(let coluna = 1; coluna < colunas; coluna++){
-            let tr = $('<tr>')
-
+            let tr = $('<div>')
+            
             for(let linha = 1; linha < linhas; linha++){
-                let id = `${coluna}x${linha}`
-                
+            let id = `${coluna}x${linha}`
+
                 this.criarTd(tr, id)
             }
 
@@ -30,13 +34,15 @@ const grade = {
         }
     },
 
+    calcularNumeroDeCedulas(largura){ return Math.floor( largura / this.tamanhoDasCedulas ) },
+
     criarTd(tr, id){
-        let td = $('<td>')
+        let td = $('<div>')
 
         td.attr('id',id)
-        td.addClass('cedula')
         td.css('width', `${this.tamanhoDasCedulas}`)
         td.css('height', `${this.tamanhoDasCedulas}`)
+        td.addClass('cedula')
         td.click(this.clicouNaCedula)
         
         tr.append(td)

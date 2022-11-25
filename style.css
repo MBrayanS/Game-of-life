@@ -3,15 +3,6 @@ body {
     padding: 0;
 }
 
-.conteudo {
-    height: calc(100vh - 15px);
-    background-color: #424242;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 15px;
-}
-
 .painel {
     top: -40px;
     width: 100%;
@@ -41,20 +32,29 @@ label input {
     text-align: center;
 }
 
-.jogo {
+.conteudo {
     width: max-content;
     height: max-content;
-    background-color: rgb(70, 70, 70);
-    margin: 0;
-    padding: 0;
+    min-width: 100vw;
+    min-height: 100vh;
+    background-color: #424242;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 15px;
+}
+
+.grade {
+    width: max-content;
+    height: max-content;
+    min-width: 100vw;
+    min-height: 100vh;
     display: flex;
 }
 
 .cedula {
-    padding: 0;
-    min-width: 15px;
-    min-height: 15px;
     background-color: black;
+    margin: 1px;
 }
 
 .cedula-marcada {
