@@ -1,62 +1,75 @@
-const grade = {
-    divGrade: $('.grade'),
-    tamanhoDasCedulas: 10,
+import fnProcessos from "./processos.js"
+import fnPaineil from './painel.js'
 
-    iniciar(){
-        this.ajustarGrade()
-        this.montarGrade()
-    },
+const processos = fnProcessos()
+const painel = fnPaineil()
+const grade = fnGrade()
 
-    ajustarGrade(){
-        
-        
-        this.divGrade.css('border', '1px solid red')
-    },
+grade.ativarPainel(painel)
+grade.iniciar()
+
+function fnGrade (){
+    let divGrade = $('.grade')
+    let tamanhoDasCedulas = 10
+    let pausado = true
+
+    function iniciar(){
+        montarGrade()
+        rodar()
+    }
+
+    function rodar(){
+        if(!pausado){
+            processos.processarCedulas()
+        }
+
+        requestAnimationFrame(rodar)
+    }
     
-    montarGrade(){
+    function montarGrade(){
         let bodyW = $('body').width()
         let bodyH = $('body').height()
-        let colunas = this.calcularNumeroDeCedulas(bodyW)
-        let linhas = this.calcularNumeroDeCedulas(bodyH)
+        let numeroDeColunas = Math.floor( bodyW / tamanhoDasCedulas )
+        let NumeroDeLinhas = Math.floor( bodyH / tamanhoDasCedulas )
 
-        console.log(colunas,linhas)
-
-        for(let coluna = 1; coluna < colunas; coluna++){
-            let tr = $('<div>')
+        for(let idDaColuna = 1; idDaColuna < numeroDeColunas; idDaColuna++){
+            let coluna = $('<div>')
             
-            for(let linha = 1; linha < linhas; linha++){
-            let id = `${coluna}x${linha}`
+            for(let idDaLinha = 1; idDaLinha < NumeroDeLinhas; idDaLinha++){
+            let id = `${idDaColuna}x${idDaLinha}`
 
-                this.criarTd(tr, id)
+                criarCedula(coluna, id)
             }
 
-            this.divGrade.append(tr)
+            divGrade.append(coluna)
         }
-    },
+    }
 
-    calcularNumeroDeCedulas(largura){ return Math.floor( largura / this.tamanhoDasCedulas ) },
+    function criarCedula(coluna, id){
+        let cedula = $('<div>')
 
-    criarTd(tr, id){
-        let td = $('<div>')
-
-        td.attr('id',id)
-        td.css('width', `${this.tamanhoDasCedulas}`)
-        td.css('height', `${this.tamanhoDasCedulas}`)
-        td.addClass('cedula')
-        td.click(this.clicouNaCedula)
+        cedula.attr('id',id)
+        cedula.css('width', `${tamanhoDasCedulas}`)
+        cedula.css('height', `${tamanhoDasCedulas}`)
+        cedula.addClass('cedula')
+        cedula.click(clicouNaCedula)
         
-        tr.append(td)
-    },
+        coluna.append(cedula)
+    }
 
-    clicouNaCedula({ target }){
+    function clicouNaCedula({ target }){
         let cedula = $(`#${target.id}`)
 
         if(cedula.hasClass('cedula-marcada')){
             cedula.removeClass('cedula-marcada')
+            processos.desmarcarCedula()
         }else{
             cedula.addClass('cedula-marcada')
+            processos.marcarCedula()
         }
     }
-}
 
-grade.iniciar()
+    return {
+        iniciar
+    }
+}
