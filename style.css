@@ -4,7 +4,7 @@ body {
 }
 
 .conteudo {
-    height: 100vh;
+    height: calc(100vh - 15px);
     background-color: #424242;
     display: flex;
     justify-content: center;
@@ -13,14 +13,14 @@ body {
 }
 
 .painel {
-    /*top: -40px;*/
+    top: -40px;
     width: 100%;
     height: 50px;
     position: fixed;
     background-color: lightgrey;
     display: flex;
     justify-content: center;
-    border-bottom: 2px solid #222;
+    border-bottom: 1px solid #222;
     transition: all 0.5s;
 }
 
@@ -51,8 +51,10 @@ label input {
 }
 
 .cedula {
+    padding: 0;
+    min-width: 15px;
+    min-height: 15px;
     background-color: black;
-    margin: 1.5px;
 }
 
 .cedula-marcada {
