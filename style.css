@@ -60,3 +60,7 @@ label input {
 .cedula-marcada {
     background-color: rgb(30, 200, 30);
 }
+
+.azul {
+    background-color: lightskyblue;
+}

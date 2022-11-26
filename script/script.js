@@ -1,41 +1,51 @@
 import fnProcessos from "./processos.js"
-import fnPaineil from './painel.js'
+import fnPainel from './painel.js'
 
-const processos = fnProcessos()
-const painel = fnPaineil()
-const grade = fnGrade()
+const grade = fnGrade({
+    fnProcessos,
+    fnPainel
+})
 
-grade.ativarPainel(painel)
 grade.iniciar()
 
-function fnGrade (){
+function fnGrade (params){
     let divGrade = $('.grade')
     let tamanhoDasCedulas = 10
-    let pausado = true
+    let pausado = false
+    let altura
+    let largura
+    let processos
+    let painel
 
     function iniciar(){
         montarGrade()
+
+        processos = params.fnProcessos(altura, largura)
+        painel = params.fnPainel()
+
         rodar()
     }
 
     function rodar(){
+        console.log('Atualizar ->')
         if(!pausado){
-            processos.processarCedulas()
+            processos.varrerCedulasAcusadas('.grade','cedula-marcada')
         }
 
-        requestAnimationFrame(rodar)
+        setTimeout(rodar,3000)
     }
     
     function montarGrade(){
-        let bodyW = $('body').width()
-        let bodyH = $('body').height()
-        let numeroDeColunas = Math.floor( bodyW / tamanhoDasCedulas )
-        let NumeroDeLinhas = Math.floor( bodyH / tamanhoDasCedulas )
+        let numeroDeColunas = Math.floor( $('body').width() / tamanhoDasCedulas )
+        let numeroDeLinhas = Math.floor( $('body').height() / tamanhoDasCedulas )
+
+        altura = numeroDeLinhas
+        largura = numeroDeColunas
 
         for(let idDaColuna = 1; idDaColuna < numeroDeColunas; idDaColuna++){
             let coluna = $('<div>')
             
-            for(let idDaLinha = 1; idDaLinha < NumeroDeLinhas; idDaLinha++){
+            for(let idDaLinha = 1; idDaLinha < numeroDeLinhas; idDaLinha++){
             let id = `${idDaColuna}x${idDaLinha}`
 
                 criarCedula(coluna, id)
@@ -59,13 +69,14 @@ function fnGrade (){
 
     function clicouNaCedula({ target }){
         let cedula = $(`#${target.id}`)
+        let id = target.id
 
         if(cedula.hasClass('cedula-marcada')){
             cedula.removeClass('cedula-marcada')
-            processos.desmarcarCedula()
+            processos.desmarcarCedula(id)
         }else{
             cedula.addClass('cedula-marcada')
-            processos.marcarCedula()
+            processos.acusarCedula(id)
         }
     }
 
