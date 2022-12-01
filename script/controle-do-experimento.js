@@ -42,6 +42,20 @@ function fnPainel(){
         $('#cedulas-marcadas').html( processos.numeroDeCedulasMarcadas() )
     }
 
+    $('.expande-painel').click(()=>{
+        let divPainel = $('.painel')
+
+        if(divPainel.hasClass('painel--escondido')){
+            divPainel.removeClass('painel--escondido')
+            divPainel.addClass('painel--visivel')
+            $('.expande-painel').removeClass('expande-painel--escondido')
+        }else{
+            divPainel.removeClass('painel--visivel')
+            divPainel.addClass('painel--escondido')
+            $('.expande-painel').addClass('expande-painel--escondido')
+        }
+    })
+
     return {
         atualizarNumeroDeCedulasmarcadas
     }

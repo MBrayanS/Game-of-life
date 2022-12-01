@@ -4,7 +4,6 @@ body {
 }
 
 .painel {
-    top: -40px;
     width: 100%;
     height: 50px;
     position: fixed;
@@ -12,11 +11,29 @@ body {
     display: flex;
     justify-content: center;
     border-bottom: 1px solid #222;
-    transition: all 1s;
+    transition: all 0.5s;
 }
 
-.painel:hover {
+.painel--visivel {
     top: 0;
+}
+
+.painel--escondido {
+    top: -45px;
+}
+
+.expande-painel {
+    width: 25px;
+    height: 40px;
+    position: fixed;
+    top: 5px;
+    right: 5px;
+    transition: all 0.5s;
+}
+
+.expande-painel--escondido {
+    padding-top: 20px;
+    top: -15px
 }
 
 .painel label{
@@ -41,7 +58,7 @@ label input {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 15px;
+    padding-top: 25px;
 }
 
 .grade {
