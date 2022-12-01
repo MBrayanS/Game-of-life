@@ -5,19 +5,19 @@ export default (altura, largura)=>{
     let larguraLimite = largura
     let listaParaMarcar = []
     let listaParaDesmarcar = []
-    
-    function varrerCedulasAcusadas(seletor,nomeDaclass){
-        let elemento = $(seletor)
+    let seletor = '.grade'
+    let nomeDaclass = 'cedula-marcada'
 
+    function varrerCedulasAcusadas(){
         for(let id in cedulasAcusadas){
-            analizarCedula({id, elemento, nomeDaclass})
+            analizarCedula({id, seletor, nomeDaclass})
+            delete cedulasAcusadas[id]
         }
-
-        cedulasAcusadas = {}
         atualizarGrade()
     }
     
-    function analizarCedula({id, elemento, nomeDaclass}){
+    function analizarCedula({id, seletor, nomeDaclass}){
+        let elemento = $(seletor)
         let vizinhas = retornarVizinhas(cedulasAcusadas[id])
         let vizinhasMarcadas = 0
         let cedulaMarcada = elemento.find(`#${id}`).hasClass(nomeDaclass)
@@ -29,25 +29,30 @@ export default (altura, largura)=>{
             if( div.hasClass(nomeDaclass) ) vizinhasMarcadas++
         }
 
-        atualizarCedula({cedulaMarcada, id, vizinhasMarcadas})
+        atualizarCedula({id, vizinhasMarcadas, cedulaMarcada})
     }
 
     function atualizarGrade(){
         listaParaDesmarcar.forEach(id => desmarcarCedula(id))
-        listaParaMarcar.forEach(id => marcarCedula(id))
+        listaParaMarcar.forEach( id => {
+            marcarCedula(id)
+            acusarCedula(id)
+        })
 
         listaParaDesmarcar = []
         listaParaMarcar = []
     }
 
-    function atualizarCedula({cedulaMarcada, id, vizinhasMarcadas}){
+    function atualizarCedula({id, vizinhasMarcadas, cedulaMarcada}){
         
         if(vizinhasMarcadas < 2 || vizinhasMarcadas > 3){
             listaParaDesmarcar.push(id)
-            console.log(' ',id,' --> ',vizinhasMarcadas, ' DESMARCADA')
         }else if(vizinhasMarcadas == 3) {
             listaParaMarcar.push(id)
-            console.log(' ',id,' --> ',vizinhasMarcadas, ' MARCADA')
+        }else{
+            if(cedulaMarcada){
+                listaParaMarcar.push(id)
+            }
         }
     }
 
@@ -57,7 +62,7 @@ export default (altura, largura)=>{
 
         for(let x = coluna-r; x <= coluna+r; x++){
             for(let y = linha-r; y <= linha+r; y++){
-                if(x > 0 && y > 0 && x < alturaLimite && y < larguraLimite) vizinhas[`${x}x${y}`] ={coluna: x, linha: y}
+                if(x > 0 && y > 0 && x < larguraLimite && y < alturaLimite) vizinhas[`${x}x${y}`] = {coluna: x, linha: y}
             }
         }
 
@@ -75,7 +80,6 @@ export default (altura, largura)=>{
     }
     
     function acusarCedula(id){
-        console.log(id,' --> Acusada')
         let posicao = tratarId(id)
         let vizinhas = retornarVizinhas(posicao)
 

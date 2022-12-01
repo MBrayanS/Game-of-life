@@ -1,40 +1,12 @@
-import fnProcessos from "./processos.js"
-import fnPainel from './painel.js'
-
-const grade = fnGrade({
-    fnProcessos,
-    fnPainel
-})
-
-grade.iniciar()
-
-function fnGrade (params){
+export default ()=>{
     let divGrade = $('.grade')
     let tamanhoDasCedulas = 10
-    let pausado = false
-    let altura
-    let largura
-    let processos
-    let painel
+    let altura = 0
+    let largura = 0
+    let funcaoDeInteracao
 
-    function iniciar(){
-        montarGrade()
+    montarGrade()
 
-        processos = params.fnProcessos(altura, largura)
-        painel = params.fnPainel()
-
-        rodar()
-    }
-
-    function rodar(){
-        console.log('Atualizar ->')
-        if(!pausado){
-            processos.varrerCedulasAcusadas('.grade','cedula-marcada')
-        }
-
-        setTimeout(rodar,3000)
-    }
-    
     function montarGrade(){
         let numeroDeColunas = Math.floor( $('body').width() / tamanhoDasCedulas )
         let numeroDeLinhas = Math.floor( $('body').height() / tamanhoDasCedulas )
@@ -42,10 +14,10 @@ function fnGrade (params){
         altura = numeroDeLinhas
         largura = numeroDeColunas
 
-        for(let idDaColuna = 1; idDaColuna < numeroDeColunas; idDaColuna++){
+        for(let idDaColuna = 1; idDaColuna <= numeroDeColunas; idDaColuna++){
             let coluna = $('<div>')
             
-            for(let idDaLinha = 1; idDaLinha < numeroDeLinhas; idDaLinha++){
+            for(let idDaLinha = 1; idDaLinha <= numeroDeLinhas; idDaLinha++){
             let id = `${idDaColuna}x${idDaLinha}`
 
                 criarCedula(coluna, id)
@@ -73,14 +45,24 @@ function fnGrade (params){
 
         if(cedula.hasClass('cedula-marcada')){
             cedula.removeClass('cedula-marcada')
-            processos.desmarcarCedula(id)
+            funcaoDeInteracao.desmarcarCedula(id)
         }else{
             cedula.addClass('cedula-marcada')
-            processos.acusarCedula(id)
+            funcaoDeInteracao.acusarCedula(id)
         }
     }
 
+    function atribuirInteracao(interacao){
+        funcaoDeInteracao = interacao
+    }
+
+    function alturaDaGrade (){ return altura }
+
+    function larguraDaGrade (){ return largura }
+
     return {
-        iniciar
+        larguraDaGrade,
+        alturaDaGrade,
+        atribuirInteracao
     }
 }
