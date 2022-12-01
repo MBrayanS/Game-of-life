@@ -5,39 +5,36 @@ export default (altura, largura)=>{
     let larguraLimite = largura
     let listaParaMarcar = []
     let listaParaDesmarcar = []
-    let seletor = '.grade'
-    let nomeDaclass = 'cedula-marcada'
+    let seletorDaGrade = '.grade'
+    let classDeEstilizacao = 'cedula-marcada'
 
     function varrerCedulasAcusadas(){
         for(let id in cedulasAcusadas){
-            analizarCedula({id, seletor, nomeDaclass})
+            analizarCedula(id)
             delete cedulasAcusadas[id]
         }
         atualizarGrade()
     }
     
-    function analizarCedula({id, seletor, nomeDaclass}){
-        let elemento = $(seletor)
+    function analizarCedula(id){
+        let elemento = $(seletorDaGrade)
         let vizinhas = retornarVizinhas(cedulasAcusadas[id])
         let vizinhasMarcadas = 0
-        let cedulaMarcada = elemento.find(`#${id}`).hasClass(nomeDaclass)
+        let cedulaMarcada = elemento.find(`#${id}`).hasClass(classDeEstilizacao)
 
         for(let index in vizinhas){
             let div = elemento.find(`#${index}`)
 
             if(index == id) continue
-            if( div.hasClass(nomeDaclass) ) vizinhasMarcadas++
+            if( div.hasClass(classDeEstilizacao) ) vizinhasMarcadas++
         }
 
         atualizarCedula({id, vizinhasMarcadas, cedulaMarcada})
     }
 
     function atualizarGrade(){
-        listaParaDesmarcar.forEach(id => desmarcarCedula(id))
-        listaParaMarcar.forEach( id => {
-            marcarCedula(id)
-            acusarCedula(id)
-        })
+        listaParaDesmarcar.forEach( id => desmarcarCedula(id) )
+        listaParaMarcar.forEach( id => acusarCedula(id) )
 
         listaParaDesmarcar = []
         listaParaMarcar = []
@@ -71,18 +68,19 @@ export default (altura, largura)=>{
 
     function marcarCedula(id){
         cedulasMarcadas[id] = id
-        $('.grade').find(`#${id}`).addClass('cedula-marcada');
+        $(seletorDaGrade).find(`#${id}`).addClass(classDeEstilizacao);
     }
     
     function desmarcarCedula(id){
         delete cedulasMarcadas[id]
-        $('.grade').find(`#${id}`).removeClass('cedula-marcada');
+        $(seletorDaGrade).find(`#${id}`).removeClass(classDeEstilizacao);
     }
     
     function acusarCedula(id){
         let posicao = tratarId(id)
         let vizinhas = retornarVizinhas(posicao)
 
+        marcarCedula(id)
         acusarVizinhas(vizinhas)
     }
 
@@ -100,10 +98,17 @@ export default (altura, largura)=>{
 
     function numeroDeCedulasMarcadas(){ return Object.keys(cedulasMarcadas).length }
 
+    function limparGrade(){
+        for(let id in cedulasAcusadas){
+            desmarcarCedula(id)
+        }
+    }
+
     return {
         acusarCedula,
         desmarcarCedula,
         numeroDeCedulasMarcadas,
+        limparGrade,
         varrerCedulasAcusadas
     }
 }
