@@ -64,8 +64,6 @@ label input {
 .grade {
     width: max-content;
     height: max-content;
-    min-width: 100vw;
-    min-height: 100vh;
     display: flex;
 }
 
@@ -80,4 +78,10 @@ label input {
 
 .azul {
     background-color: lightskyblue;
+}
+
+#cedulas-marcadas {
+    margin-left: 5px;
+    min-width: 30px;
+    text-align: center;
 }

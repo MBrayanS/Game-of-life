@@ -3,9 +3,9 @@ import fnProcessos from './processos.js'
 
 let grade = gradeConstrutor()
 let processos = fnProcessos(grade.alturaDaGrade(), grade.larguraDaGrade())
-let atualizacoesPorSegundo = 200
+let velocidade = 200
 let pausado = true
-let painel = fnPainel({ atualizacoesPorSegundo, pausado })
+let painel = fnPainel()
 
 grade.atribuirInteracao(processos)
 
@@ -13,21 +13,20 @@ ativarExperimento()
 
 function ativarExperimento(){
     if(!pausado){
+        console.log('Vai --> ',velocidade)
         processos.varrerCedulasAcusadas()
     }
     
     painel.atualizarNumeroDeCedulasmarcadas()
     
-    setTimeout(ativarExperimento, atualizacoesPorSegundo)
+    setTimeout(ativarExperimento, velocidade)
 }
 
 function fnPainel(){
 
-    $('#atualizacoes-por-segundo').attr('value', atualizacoesPorSegundo) 
-    $('#atualizacoes-por-segundo').focusout(({ target })=>{ atualizacoesPorSegundo = target.value })
-    $('#atualizacoes-por-segundo').on('keydown',({ target, key})=>{
-        if(key == 'Enter') atualizacoesPorSegundo = target.value
-    })
+    $('#velocidade').attr('value', velocidade) 
+    $('#velocidade').focusout(({ target })=>{ velocidade = target.value })
+    $('#velocidade').on('keydown',({ target, key})=>{ if(key == 'Enter') velocidade = target.value })
 
     $('#btn-pause').click(({ target })=>{
         if( target.innerText == 'Rodando' ){ target.innerText = 'Pausado' }

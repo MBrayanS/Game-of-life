@@ -17,37 +17,34 @@ export default (altura, largura)=>{
     }
     
     function analizarCedula(id){
-        let elemento = $(seletorDaGrade)
         let vizinhas = retornarVizinhas(cedulasAcusadas[id])
         let vizinhasMarcadas = 0
-        let cedulaMarcada = elemento.find(`#${id}`).hasClass(classDeEstilizacao)
-
+        
         for(let index in vizinhas){
-            let div = elemento.find(`#${index}`)
 
             if(index == id) continue
-            if( div.hasClass(classDeEstilizacao) ) vizinhasMarcadas++
+            if(index in cedulasMarcadas) vizinhasMarcadas++
         }
-
-        atualizarCedula({id, vizinhasMarcadas, cedulaMarcada})
+        
+        atualizarCedula({ id, vizinhasMarcadas })
     }
-
+    
     function atualizarGrade(){
         listaParaDesmarcar.forEach( id => desmarcarCedula(id) )
         listaParaMarcar.forEach( id => acusarCedula(id) )
-
+        
         listaParaDesmarcar = []
         listaParaMarcar = []
     }
-
-    function atualizarCedula({id, vizinhasMarcadas, cedulaMarcada}){
+    
+    function atualizarCedula({ id, vizinhasMarcadas }){
         
         if(vizinhasMarcadas < 2 || vizinhasMarcadas > 3){
             listaParaDesmarcar.push(id)
         }else if(vizinhasMarcadas == 3) {
             listaParaMarcar.push(id)
         }else{
-            if(cedulaMarcada){
+            if(id in cedulasMarcadas){
                 listaParaMarcar.push(id)
             }
         }
@@ -59,7 +56,8 @@ export default (altura, largura)=>{
 
         for(let x = coluna-r; x <= coluna+r; x++){
             for(let y = linha-r; y <= linha+r; y++){
-                if(x > 0 && y > 0 && x < larguraLimite && y < alturaLimite) vizinhas[`${x}x${y}`] = {coluna: x, linha: y}
+                if(x < 1 || y < 1 || x > larguraLimite || y > alturaLimite) continue
+                vizinhas[`${x}x${y}`] = {coluna: x, linha: y}
             }
         }
 
@@ -68,12 +66,18 @@ export default (altura, largura)=>{
 
     function marcarCedula(id){
         cedulasMarcadas[id] = id
-        $(seletorDaGrade).find(`#${id}`).addClass(classDeEstilizacao);
+        editarEstiloDaCedula(id,'addClass')
     }
     
     function desmarcarCedula(id){
         delete cedulasMarcadas[id]
-        $(seletorDaGrade).find(`#${id}`).removeClass(classDeEstilizacao);
+        editarEstiloDaCedula(id,'removeClass')
+    }
+
+    function editarEstiloDaCedula(id, edit){
+        let elemento = $(seletorDaGrade).find(`#${id}`)
+
+        if(elemento.length) elemento[edit](classDeEstilizacao)
     }
     
     function acusarCedula(id){
