@@ -2,7 +2,7 @@
 
 <br>
 
-O 'jogo da vida' foi um experimento criado em 1970 pelo matemático Jonh Conway.<br>
+O 'jogo da vida' foi um experimento criado em 1970 pelo matemático John Conway.<br>
 E neste projeto eu recriei esse experimento, utilizando:
 
 <br>
